@@ -1,0 +1,22 @@
+const jwt = require('jsonwebtoken');
+
+module.exports = function verifyToken(req, res, next) {
+    const Authorization = req.header('authorization');
+
+    if (!Authorization) {
+        res.user = null;
+        next();
+    } else {
+        // Get token
+        const token = Authorization.replace('Bearer ', '');
+        try {
+            const { userId } = jwt.verify(token, process.env.APP_SECRETKEY);
+            req.user = { userId };
+            next()
+        } catch (err) {
+            req.user = null;
+            next();
+        }
+    }
+
+}
