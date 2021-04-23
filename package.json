@@ -18,7 +18,7 @@
   },
   "scripts": {
     "start": "node src/index.js",
-    "run-dev": "nodemon src/index.js",
+    "start-dev": "nodemon src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
