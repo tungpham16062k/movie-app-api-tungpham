@@ -10,10 +10,10 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.11.14",
     "mongoose-delete": "^0.5.3",
-    "mongoose-slug-generator": "^1.0.4"
+    "mongoose-slug-generator": "^1.0.4",
+    "morgan": "^1.10.0"
   },
   "devDependencies": {
-    "morgan": "^1.10.0",
     "nodemon": "^2.0.7"
   },
   "scripts": {
