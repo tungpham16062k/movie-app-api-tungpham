@@ -2,6 +2,7 @@ const dotenv = require('dotenv');
 const express = require('express');
 const app = express();
 const morgan = require('morgan');
+const cors = require('cors');
 const db = require('./config/db');
 const route = require('./route');
 const errorHandler = require('./app/middlewares/errorHandler');
@@ -17,6 +18,8 @@ app.use(express.urlencoded({
 }));
 
 app.use(express.json());
+
+app.use(cors());
 
 //HTTP logger
 app.use(morgan('combined'));
