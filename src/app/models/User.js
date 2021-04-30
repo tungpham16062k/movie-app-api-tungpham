@@ -4,17 +4,17 @@ const mongooseDelete = require('mongoose-delete');
 const bcrypt = require('bcrypt');
 
 const UserScheme = new Schema({
-    name: { type: String, trim: true, required: [true, 'Name must be requied']},
-    email: { type: String, trim: true, required: [true, 'Email must be required'], unique: true},
-    password: {type: String, trim: true, required: [true, 'Password must be required'], minlength: [6, 'Password must be at least 6 characters']}
+    name: { type: String, trim: true, required: [true, 'Name must be requied'] },
+    email: { type: String, trim: true, required: [true, 'Email must be required'], unique: true, email: true },
+    password: { type: String, trim: true, required: [true, 'Password must be required'], minlength: [6, 'Password must be at least 6 characters'] }
 }, {
     timestamps: true,
 });
 
-UserScheme.pre('save', function(next) {
+UserScheme.pre('save', function (next) {
     let user = this;
-    bcrypt.hash(user.password, 10, function(error, hash) {
-        if(error) {
+    bcrypt.hash(user.password, 10, function (error, hash) {
+        if (error) {
             next(error);
         } else {
             user.password = hash;
@@ -26,7 +26,7 @@ UserScheme.pre('save', function(next) {
 // Add plugin
 UserScheme.plugin(mongooseDelete, {
     overrideMethods: 'all',
-    deletedAt : true,
+    deletedAt: true,
 });
 
 module.exports = mongoose.model('User', UserScheme);
