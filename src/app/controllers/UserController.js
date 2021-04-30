@@ -11,6 +11,7 @@ class UserController {
     //         exp: new Date().setDate(new Date().getDate() + 1),
     //     }, process.env.APP_SECRETKEY);
     // }
+    // [GET] /users
     async getAll(req, res, next) {
         try {
             const user = await User.find({});
@@ -25,6 +26,8 @@ class UserController {
             next(error)
         }
     }
+
+    // [POST] /users/register
     async register(req, res, next) {
         try {
             const user = await User.create(req.body);
@@ -46,7 +49,7 @@ class UserController {
             next(error)
         }
     }
-
+    // [POST] /users/login
     async login(req, res, next) {
         try {
             const user = await User.findOne({ email: req.body.email });
@@ -80,7 +83,7 @@ class UserController {
             next(error)
         }
     }
-
+    // [DELETE] /users
     async deleteAllUser(req, res, next) {
         try {
             const users = await User.deleteMany({});
@@ -92,6 +95,8 @@ class UserController {
             next(error);
         }
     }
+
+    // [GET] /users/getCurrent
     async getCurrent(req, res, next) {
         try {
             const data = { user: null };

@@ -5,6 +5,7 @@ const checkCurrentUser = require('../app/middlewares/checkCurrentUser');
 
 router.post('/register', UserController.register);
 router.post('/login', UserController.login);
+router.delete('/', UserController.deleteAllUser);
 router.get('/getCurrent', checkCurrentUser, UserController.getCurrent);
 router.get('/', UserController.getAll);
 

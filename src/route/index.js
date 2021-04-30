@@ -8,7 +8,7 @@ function route(app) {
     });
     app.use('/api/movies', movieRouter);
 
-    app.use('/api/user', userRouter);
+    app.use('/api/users', userRouter);
 
     app.all('*', (req, res, next) => {
         const err = new Error('The route can not be found!');
