@@ -14,12 +14,12 @@ class UserController {
     // [GET] /users
     async getAll(req, res, next) {
         try {
-            const user = await User.find({});
+            const users = await User.find({});
 
             res.status(200).json({
                 status: 'Successful',
                 data: {
-                    user,
+                    users,
                 }
             });
         } catch (error) {
