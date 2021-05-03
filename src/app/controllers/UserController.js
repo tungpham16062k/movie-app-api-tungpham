@@ -101,7 +101,7 @@ class UserController {
         try {
             const data = { user: null };
             if (req.user) {
-                const user = User.findById(req.user.userId);
+                const user = await User.findOne({ _id: req.user.userId });
                 data.user = { userName: user.name };
             }
             res.status(200).json({

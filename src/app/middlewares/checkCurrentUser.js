@@ -1,10 +1,9 @@
 const jwt = require('jsonwebtoken');
 
-module.exports = function verifyToken(req, res, next) {
+module.exports = function checkCurrentUser(req, res, next) {
     const Authorization = req.header('authorization');
-
     if (!Authorization) {
-        res.user = null;
+        req.user = null;
         next();
     } else {
         // Get token
@@ -14,6 +13,7 @@ module.exports = function verifyToken(req, res, next) {
             req.user = { userId };
             next()
         } catch (err) {
+            console.log(2)
             req.user = null;
             next();
         }
