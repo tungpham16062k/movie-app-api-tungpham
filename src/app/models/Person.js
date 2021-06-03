@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 const slug = require('mongoose-slug-generator');
 const mongooseDelete = require('mongoose-delete');
 
-const PersonScheme = new Schema({
+const PersonSchema = new Schema({
     name: { type: String, trim: true, required: [true, 'Name must be requied'] },
     avatar: { type: String, trim: true, required: [true, 'Poster must be requied'] },
     description: String,
@@ -25,9 +25,9 @@ const PersonScheme = new Schema({
 
 // Add plugin
 mongoose.plugin(slug);
-PersonScheme.plugin(mongooseDelete, {
+PersonSchema.plugin(mongooseDelete, {
     overrideMethods: 'all',
     deletedAt: true,
 });
 
-module.exports = mongoose.model('Person', PersonScheme);
+module.exports = mongoose.model('Person', PersonSchema);

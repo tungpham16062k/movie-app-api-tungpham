@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const mongooseDelete = require('mongoose-delete');
 
-const CategoryScheme = new Schema({
+const CategorySchema = new Schema({
     name: { type: String, trim: true, required: [true, 'Name must be requied'] },
     author: {
         type: Schema.Types.ObjectId,
@@ -13,9 +13,9 @@ const CategoryScheme = new Schema({
 });
 
 // Add plugin
-CategoryScheme.plugin(mongooseDelete, {
+CategorySchema.plugin(mongooseDelete, {
     overrideMethods: 'all',
     deletedAt: true,
 });
 
-module.exports = mongoose.model('Category', PersonScheme);
+module.exports = mongoose.model('Category', CategorySchema);

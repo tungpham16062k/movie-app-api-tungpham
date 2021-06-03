@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 const slug = require('mongoose-slug-generator');
 const mongooseDelete = require('mongoose-delete');
 
-const MovieScheme = new Schema({
+const MovieSchema = new Schema({
     name: { type: String, trim: true, required: [true, 'Name must be requied'] },
     viName: { type: String, required: true, },
     poster: { type: String, trim: true, required: [true, 'Poster must be requied'] },
@@ -36,9 +36,9 @@ const MovieScheme = new Schema({
 
 // Add plugin
 mongoose.plugin(slug);
-MovieScheme.plugin(mongooseDelete, {
+MovieSchema.plugin(mongooseDelete, {
     overrideMethods: 'all',
     deletedAt: true,
 });
 
-module.exports = mongoose.model('Movie', MovieScheme);
+module.exports = mongoose.model('Movie', MovieSchema);
