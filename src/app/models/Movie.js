@@ -7,12 +7,23 @@ const MovieScheme = new Schema({
     name: { type: String, trim: true, required: [true, 'Name must be requied'] },
     viName: { type: String, required: true, },
     poster: { type: String, trim: true, required: [true, 'Poster must be requied'] },
-    description: String,
+    description: Array,
     time: String,
     backdrop: String,
     releaseAt: Date,
-    cast: Array,
+    cast: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Person',
+        }
+    ],
     director: String,
+    category: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Category',
+        }
+    ],
     rate: Number,
     author: {
         type: Schema.Types.ObjectId,
