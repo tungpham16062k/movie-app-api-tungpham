@@ -7,4 +7,4 @@ router.delete('/', CategoryController.deleteAll)
 router.post('/', verifyToken, CategoryController.createOne);
 router.get('/', CategoryController.getAll);
 
-module.exports = router
+module.exports = router;
