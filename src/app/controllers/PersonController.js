@@ -6,12 +6,12 @@ class PersonController {
     // [GET] /persons
     async getAll(req, res, next) {
         try {
-            const person = await Person.find({});
+            const persons = await Person.find({});
 
             res.status(200).json({
                 status: 'Successful',
                 data: {
-                    person,
+                    persons,
                 }
             });
         } catch (error) {

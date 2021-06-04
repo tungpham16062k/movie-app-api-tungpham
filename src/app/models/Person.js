@@ -8,7 +8,6 @@ const PersonSchema = new Schema({
     avatar: { type: String, trim: true, required: [true, 'Poster must be requied'] },
     description: String,
     birthday: String,
-    cast: Array,
     gender: String,
     movies: [
         {

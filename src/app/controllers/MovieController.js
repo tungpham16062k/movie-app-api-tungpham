@@ -15,7 +15,9 @@ class MovieController {
                 res.status(200).json({
                     status: 'Successful',
                     results: movies.length,
-                    data: movies,
+                    data: {
+                        movies
+                    },
                     page: pages,
                     limit: PAGE_SIZE,
                 });
