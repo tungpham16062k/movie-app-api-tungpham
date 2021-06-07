@@ -11,7 +11,7 @@ class MovieController {
             const skip = (pages - 1) * PAGE_SIZE;
 
             try {
-                const movies = await Movie.find({}).populate('author', 'name').skip(skip).limit(PAGE_SIZE);
+                const movies = await Movie.find({}).populate('author', 'name').populate('category', 'name').populate({ path: 'cast.actor', select: 'name avatar' }).skip(skip).limit(PAGE_SIZE);
                 res.status(200).json({
                     status: 'Successful',
                     results: movies.length,
@@ -27,7 +27,7 @@ class MovieController {
             }
         } else {
             try {
-                const movies = await Movie.find({}).populate('author', 'name').populate('cast.actor', 'name', 'avatar');
+                const movies = await Movie.find({}).populate('author', 'name').populate('category', 'name').populate({ path: 'cast.actor', select: 'name avatar' });
                 res.status(200).json({
                     status: 'Successful',
                     results: movies.length,
