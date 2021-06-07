@@ -9,15 +9,6 @@ const PersonSchema = new Schema({
     description: String,
     birthday: String,
     gender: String,
-    movies: [
-        {
-            movie: {
-                type: Schema.Types.ObjectId,
-                ref: 'Movie'
-            },
-            character: { type: String }
-        }
-    ],
     author: {
         type: Schema.Types.ObjectId,
         ref: 'User'

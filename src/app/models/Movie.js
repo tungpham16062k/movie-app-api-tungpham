@@ -5,19 +5,25 @@ const mongooseDelete = require('mongoose-delete');
 
 const MovieSchema = new Schema({
     name: { type: String, trim: true, required: [true, 'Name must be requied'] },
-    viName: { type: String, required: true, },
+    viName: { type: String, required: [true, 'viName must be requied'], },
     poster: { type: String, trim: true, required: [true, 'Poster must be requied'] },
+    backdrop: String,
     description: Array,
     time: String,
-    backdrop: String,
     releaseAt: Date,
     cast: [
         {
-            type: Schema.Types.ObjectId,
-            ref: 'Person',
+            actor: {
+                type: Schema.Types.ObjectId,
+                ref: 'Person'
+            },
+            character: { type: String }
         }
     ],
-    director: String,
+    director: {
+        type: Schema.Types.ObjectId,
+        ref: 'Person'
+    },
     category: [
         {
             type: Schema.Types.ObjectId,
