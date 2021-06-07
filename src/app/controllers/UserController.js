@@ -18,9 +18,8 @@ class UserController {
 
             res.status(200).json({
                 status: 'Successful',
-                data: {
-                    users,
-                }
+                results: users.length,
+                data: users,
             });
         } catch (error) {
             next(error)

@@ -10,9 +10,8 @@ class PersonController {
 
             res.status(200).json({
                 status: 'Successful',
-                data: {
-                    persons,
-                }
+                results: persons.length,
+                data: persons
             });
         } catch (error) {
             next(error)

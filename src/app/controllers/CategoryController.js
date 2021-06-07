@@ -10,9 +10,8 @@ class CategoryController {
 
             res.status(200).json({
                 status: 'Successful',
-                data: {
-                    categories,
-                }
+                results: categories.length,
+                data: categories,
             });
         } catch (error) {
             next(error)
