@@ -44,7 +44,7 @@ class MovieController {
     async getOneBySlug(req, res, next) {
         try {
             const { slug } = req.params;
-            const movie = await Movie.find({ slug: slug }).populate('author', 'name').populate('category', 'name').populate({ path: 'cast.actor', select: 'name avatar' });
+            const movie = await Movie.find({ slug: slug }).populate('author', 'name').populate('category', 'name').populate({ path: 'cast.actor', select: 'name avatar slug' });
             res.status(200).json({
                 status: 'Successful',
                 data: movie
