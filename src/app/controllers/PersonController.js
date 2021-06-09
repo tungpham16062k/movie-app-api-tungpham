@@ -1,5 +1,6 @@
 
 const Person = require('../models/Person');
+const slugify = require('../../config/slugify');
 
 class PersonController {
 
@@ -36,6 +37,30 @@ class PersonController {
         }
     }
 
+    // [POST] /persons/createMany
+    async createMany(req, res, next) {
+        try {
+            const { userId } = req.user;
+            const data = req.body;
+            data.map((item) => {
+                item.author = userId;
+                if (!item.slug) {
+                    item.slug = slugify.slug(item.name);
+                }
+            })
+            const persons = await Person.insertMany([...data]);
+
+            res.status(200).json({
+                status: 'Successful',
+                data: {
+                    persons,
+                }
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+
     // [DELETE] /persons
     async deleteAll(req, res, next) {
         try {
@@ -43,7 +68,7 @@ class PersonController {
 
             res.status(200).json({
                 status: 'Successful',
-                message: 'All movie has been deleted'
+                message: 'All person has been deleted'
             });
         } catch (error) {
             res.json(error);

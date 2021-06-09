@@ -8,6 +8,7 @@ const CategorySchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
+    slug: { type: String, slug: 'name', unique: true }
 }, {
     timestamps: true,
 });

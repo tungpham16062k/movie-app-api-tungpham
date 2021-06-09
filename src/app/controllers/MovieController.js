@@ -82,6 +82,20 @@ class MovieController {
         }
     }
 
+    // [POST] /movies/createMany
+    async createMany(req, res, next) {
+        try {
+            const { userId } = req.user;
+            const movies = await Movie.insertMany([...req.body]);
+            res.status(200).json({
+                status: 'Successful',
+                data: movies
+            })
+        } catch (error) {
+            next(error);
+        }
+    }
+
     // [PUT] /movies/:id
     async updateOne(req, res, next) {
         try {
@@ -92,6 +106,22 @@ class MovieController {
             res.status(200).json({
                 status: 'Successful',
                 data: movie
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+    // [PATCH] /movies/author
+    async updateAuthorForAll(req, res, next) {
+        try {
+            const { userId } = req.user;
+
+            const movie = await Movie.updateMany({ author: null }, { author: userId }, { multi: true });
+
+            res.status(200).json({
+                status: 'Successful',
+                result: movie.nModified,
+                message: `${movie.nModified} records is updated!!!`
             });
         } catch (error) {
             next(error);

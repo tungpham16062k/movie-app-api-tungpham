@@ -9,6 +9,8 @@ router.delete('/:movieId', MovieController.deleteOne);
 // router.get('/:movieId', MovieController.getOneById);
 router.get('/:slug', MovieController.getOneBySlug);
 router.delete('/', MovieController.deleteAll);
+// router.post('/createMany', verifyToken, MovieController.createMany);
+router.patch('/author', verifyToken, MovieController.updateAuthorForAll);
 router.post('/', verifyToken, MovieController.createOne);
 router.get('/', MovieController.get);
 
