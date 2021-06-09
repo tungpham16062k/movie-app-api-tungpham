@@ -5,6 +5,7 @@ const verifyToken = require('../app/middlewares/verifyToken');
 
 router.delete('/', PersonController.deleteAll);
 router.post('/createMany', verifyToken, PersonController.createMany);
+router.patch('/author', verifyToken, PersonController.updateAuthorForAll);
 router.post('/', verifyToken, PersonController.createOne);
 router.get('/', PersonController.getAll);
 

@@ -74,6 +74,24 @@ class CategoryController {
             next(error);
         }
     }
+
+    // [PATCH] /categories/author
+    async updateAuthorForAll(req, res, next) {
+        try {
+            const { userId } = req.user;
+
+            const category = await Category.updateMany({}, { author: userId }, { multi: true });
+
+            res.status(200).json({
+                status: 'Successful',
+                result: category.nModified,
+                message: `${category.nModified} records is updated!!!`
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+
     // [DELETE] /categories
     async deleteAll(req, res, next) {
         try {

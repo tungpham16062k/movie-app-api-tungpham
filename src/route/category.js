@@ -6,6 +6,7 @@ const verifyToken = require('../app/middlewares/verifyToken');
 router.delete('/', CategoryController.deleteAll)
 router.post('/createMany', verifyToken, CategoryController.createMany);
 router.put('/:categoryId', CategoryController.updateOne);
+router.patch('/author', verifyToken, CategoryController.updateAuthorForAll);
 router.post('/', verifyToken, CategoryController.createOne);
 router.get('/', CategoryController.getAll);
 

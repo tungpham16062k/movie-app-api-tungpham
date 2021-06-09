@@ -61,6 +61,23 @@ class PersonController {
         }
     }
 
+    // [PATCH] /persons/author
+    async updateAuthorForAll(req, res, next) {
+        try {
+            const { userId } = req.user;
+
+            const person = await Person.updateMany({}, { author: userId }, { multi: true });
+
+            res.status(200).json({
+                status: 'Successful',
+                result: person.nModified,
+                message: `${person.nModified} records is updated!!!`
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+
     // [DELETE] /persons
     async deleteAll(req, res, next) {
         try {
