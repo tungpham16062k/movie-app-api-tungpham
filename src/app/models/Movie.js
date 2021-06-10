@@ -20,10 +20,10 @@ const MovieSchema = new Schema({
             character: { type: String }
         }
     ],
-    director: {
+    director: [{
         type: Schema.Types.ObjectId,
         ref: 'Person'
-    },
+    }],
     category: [
         {
             type: Schema.Types.ObjectId,
