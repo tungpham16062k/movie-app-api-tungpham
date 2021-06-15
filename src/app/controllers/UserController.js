@@ -124,12 +124,11 @@ class UserController {
             if (userId && movieId) {
                 const isExist = await User.findOne({ favorites: movieId }).count().exec();
                 if (isExist) {
-                    return res.status(200).json({
-                        status: 'Successful',
-                        message: 'Movie is existed in the favorites list'
-                    });
+                    const err = new Error('Movie is existed in the favorites list');
+                    err.status = 401;
+                    return next(err)
                 }
-                const user = await User.findOneAndUpdate({ _id: userId }, { $push: { favorites: movieId } }, { new: true });
+                const user = await User.findOneAndUpdate({ _id: userId }, { $push: { favorites: movieId } }, { runValidators: true, context: 'query', new: true });
                 return res.status(200).json({
                     status: 'Successful',
                     data: {
