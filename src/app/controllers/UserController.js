@@ -69,7 +69,8 @@ class UserController {
                     status: 'Successful',
                     data: {
                         token,
-                        userName: user.name
+                        userName: user.name,
+                        favorites: user.favorites
                     }
                 });
             } else {
@@ -88,7 +89,7 @@ class UserController {
             const users = await User.deleteMany({});
             res.status(200).json({
                 status: "Successful",
-                users
+                count: users.n
             });
         } catch (error) {
             next(error);
@@ -101,12 +102,49 @@ class UserController {
             const data = { user: null };
             if (req.user) {
                 const user = await User.findOne({ _id: req.user.userId });
-                data.user = { userName: user.name };
+                data.user = {
+                    userName: user.name,
+                    favorites: user.favorites
+                };
             }
             res.status(200).json({
                 status: 'Successful',
                 data
             });
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    async addFavorites(req, res, next) {
+        try {
+            const { userId } = req.user;
+            const { movieId } = req.params;
+            console.log(userId);
+            if (userId && movieId) {
+                const isExist = await User.findOne({ favorites: movieId }).count().exec();
+                if (isExist) {
+                    return res.status(200).json({
+                        status: 'Successful',
+                        message: 'Movie is existed in the favorites list'
+                    });
+                }
+                const user = await User.findOneAndUpdate({ _id: userId }, { $push: { favorites: movieId } }, { new: true });
+                return res.status(200).json({
+                    status: 'Successful',
+                    data: {
+                        favorites: user.favorites
+                    }
+                });
+
+            }
+            return res.status(200).json({
+                status: 'Successful',
+                data: {
+                    favorites: []
+                }
+            });
+
         } catch (error) {
             next(error)
         }

@@ -13,7 +13,6 @@ module.exports = function checkCurrentUser(req, res, next) {
             req.user = { userId };
             next()
         } catch (err) {
-            console.log(2)
             req.user = null;
             next();
         }
