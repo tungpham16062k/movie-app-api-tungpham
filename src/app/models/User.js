@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const mongooseDelete = require('mongoose-delete');
-const uniqueValidator = require('mongoose-unique-validator');
 const bcrypt = require('bcrypt');
 
 const UserSchema = new Schema({
@@ -33,7 +32,6 @@ UserSchema.pre('save', function (next) {
 });
 
 // Add plugin
-UserSchema.plugin(uniqueValidator);
 UserSchema.plugin(mongooseDelete, {
     overrideMethods: 'all',
     deletedAt: true,
