@@ -111,6 +111,7 @@ class MovieController {
             next(error);
         }
     }
+
     // [PATCH] /movies/author
     async updateAuthorForAll(req, res, next) {
         try {
@@ -127,6 +128,42 @@ class MovieController {
             next(error);
         }
     }
+
+    // [PATCH] /movies/addCaster/:id
+    async addCaster(req, res, next) {
+        try {
+            const { movieId } = req.params;
+            const data = [...req.body];
+            var isExistCount = 0;
+            const movie = await Movie.findOne({ _id: movieId });
+            const newData = data.reduce((result, item) => {
+                const isExist = movie.cast.some(caster => item.actor == caster.actor);
+                if (!isExist) {
+                    return [...result, item];
+                } else {
+                    isExistCount++;
+                }
+                return [...result];
+            }, []);
+            if (Array.isArray(newData)) {
+                const movie = await Movie.findOneAndUpdate({ _id: movieId }, { $push: { cast: { $each: newData } } }, { new: true, runValidators: true });
+                return res.status(200).json({
+                    status: 'Successful',
+                    isExist: isExistCount,
+                    data: movie
+                });
+            }
+
+            return res.status(200).json({
+                status: 'Successful',
+                isExist: isExistCount,
+                data: []
+            });
+        } catch (error) {
+            next(error)
+        }
+    }
+
 
     // [DELETE] /movies/:id
     async deleteOne(req, res, next) {

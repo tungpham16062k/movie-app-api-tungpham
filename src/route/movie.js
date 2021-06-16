@@ -11,6 +11,7 @@ router.get('/:slug', MovieController.getOneBySlug);
 router.delete('/', MovieController.deleteAll);
 // router.post('/createMany', verifyToken, MovieController.createMany);
 router.patch('/author', verifyToken, MovieController.updateAuthorForAll);
+router.patch('/addCaster/:movieId', MovieController.addCaster);
 router.post('/', verifyToken, MovieController.createOne);
 router.get('/', MovieController.get);
 
