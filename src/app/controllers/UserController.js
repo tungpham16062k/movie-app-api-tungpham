@@ -116,6 +116,39 @@ class UserController {
         }
     }
 
+    async removeFavorites(req, res, next) {
+        try {
+            const { userId } = req.user;
+            const { movieId } = req.params;
+            console.log(userId);
+            if (userId && movieId) {
+                const isExist = await User.findOne({ favorites: movieId }).count().exec();
+                if (!isExist) {
+                    const err = new Error("Movie isn't existed in the favorites list");
+                    err.status = 401;
+                    return next(err)
+                }
+                const user = await User.findOneAndUpdate({ _id: userId }, { $pull: { favorites: movieId } }, { runValidators: true, context: 'query', new: true });
+                return res.status(200).json({
+                    status: 'Successful',
+                    data: {
+                        favorites: user.favorites
+                    }
+                });
+
+            }
+            return res.status(200).json({
+                status: 'Successful',
+                data: {
+                    favorites: []
+                }
+            });
+
+        } catch (error) {
+            next(error)
+        }
+    }
+
     async addFavorites(req, res, next) {
         try {
             const { userId } = req.user;
