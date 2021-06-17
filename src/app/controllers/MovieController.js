@@ -27,7 +27,7 @@ class MovieController {
             }
         } else {
             try {
-                const movies = await Movie.find({}).populate('author', 'name');
+                const movies = await Movie.find({}).populate('author', 'name').limit(PAGE_SIZE);
                 res.status(200).json({
                     status: 'Successful',
                     results: movies.length,
