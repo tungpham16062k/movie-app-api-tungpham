@@ -16,13 +16,13 @@ class MovieController {
                     status: 'Successful',
                     results: movies.length,
                     data: {
-                        movies
+                        movies,
+                        pagination: {
+                            page: pages,
+                            limit: PAGE_SIZE,
+                            totalRows: countMovie
+                        }
                     },
-                    pagination: {
-                        page: pages,
-                        limit: PAGE_SIZE,
-                        totalRows: countMovie
-                    }
                 });
             } catch (error) {
                 next(error);
@@ -34,12 +34,15 @@ class MovieController {
                 res.status(200).json({
                     status: 'Successful',
                     results: movies.length,
-                    data: movies,
-                    pagination: {
-                        page: 1,
-                        limit: PAGE_SIZE,
-                        totalRows: countMovie
-                    }
+                    data: {
+                        movies,
+                        pagination: {
+                            page: 1,
+                            limit: PAGE_SIZE,
+                            totalRows: countMovie
+                        }
+                    },
+
                 });
             } catch (error) {
                 next(error);
