@@ -18,9 +18,11 @@ class MovieController {
                     data: {
                         movies
                     },
-                    page: pages,
-                    limit: PAGE_SIZE,
-                    totalRows: countMovie
+                    pagination: {
+                        page: pages,
+                        limit: PAGE_SIZE,
+                        totalRows: countMovie
+                    }
                 });
             } catch (error) {
                 next(error);
@@ -33,9 +35,11 @@ class MovieController {
                     status: 'Successful',
                     results: movies.length,
                     data: movies,
-                    page: 1,
-                    limit: PAGE_SIZE,
-                    totalRows: countMovie
+                    pagination: {
+                        page: 1,
+                        limit: PAGE_SIZE,
+                        totalRows: countMovie
+                    }
                 });
             } catch (error) {
                 next(error);
