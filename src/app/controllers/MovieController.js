@@ -3,15 +3,15 @@ const Movie = require('../models/Movie');
 class MovieController {
     // [GET] /movies
     async get(req, res, next) {
-        const { page } = req.query;
-        const PAGE_SIZE = 12;
-        console.log(page);
+        const { page, limit } = req.query;
+        const PAGE_SIZE = parseInt(limit) || 12;
         if (page) {
             const pages = parseInt(page);
             const skip = (pages - 1) * PAGE_SIZE;
 
             try {
                 const movies = await Movie.find({}).populate('author', 'name').sort({ createdAt: 'desc' }).skip(skip).limit(PAGE_SIZE);
+                const countMovie = await Movie.find({}).countDocuments({});
                 res.status(200).json({
                     status: 'Successful',
                     results: movies.length,
@@ -20,18 +20,22 @@ class MovieController {
                     },
                     page: pages,
                     limit: PAGE_SIZE,
+                    totalRows: countMovie
                 });
             } catch (error) {
                 next(error);
-
             }
         } else {
             try {
                 const movies = await Movie.find({}).populate('author', 'name').sort({ createdAt: 'desc' }).limit(PAGE_SIZE);
+                const countMovie = await Movie.find({}).countDocuments({});
                 res.status(200).json({
                     status: 'Successful',
                     results: movies.length,
-                    data: movies
+                    data: movies,
+                    page: 1,
+                    limit: PAGE_SIZE,
+                    totalRows: countMovie
                 });
             } catch (error) {
                 next(error);
