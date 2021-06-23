@@ -1,4 +1,5 @@
 const Movie = require('../models/Movie');
+const User = require('../models/User');
 
 class MovieController {
     // [GET] /movies
@@ -63,6 +64,29 @@ class MovieController {
         } catch (error) {
             next(error);
         }
+    }
+
+    // [GET] /movies/getFavorites
+    async getFavorite(req, res, next) {
+        const { userId } = req.user;
+        const user = await User.findOne({ _id: userId });
+
+        if (!Object.keys(user).length) {
+            const err = new Error('Email is not correct');
+            err.statusCode = 400;
+            return next(err);
+        }
+
+        const movies = await Movie.find({ _id: { $in: user.favorites } });
+
+        return res.status(200).json({
+            status: 'Successful',
+            results: movies.length,
+            data: {
+                movies
+            },
+        });
+
     }
 
     // [GET] /movies/:id
