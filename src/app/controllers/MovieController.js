@@ -77,7 +77,7 @@ class MovieController {
             return next(err);
         }
 
-        const movies = await Movie.find({ _id: { $in: user.favorites } });
+        const movies = await Movie.find({ _id: { $in: user.favorites } }).populate('category', 'name');
 
         return res.status(200).json({
             status: 'Successful',
