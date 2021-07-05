@@ -89,6 +89,24 @@ class MovieController {
 
     }
 
+    // [GET] /movies/getPerson/:id
+    // async getByPersonId(req, res, next) {
+    //     try {
+    //         const { id } = req.params;
+    //         console.log(id)
+    //         const movie = await Movie.find({ 'cast.actor': id });
+    //         res.status(200).json({
+    //             status: 'Successful',
+    //             data: {
+    //                 movie,
+    //                 person
+    //             }
+    //         });
+    //     } catch (error) {
+    //         next(error);
+    //     }
+    // }
+
     // [GET] /movies/:id
     // async getOneById(req, res, next) {
     //     try {

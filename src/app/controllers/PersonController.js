@@ -1,5 +1,6 @@
 
 const Person = require('../models/Person');
+const Movie = require('../models/Movie');
 const slugify = require('../../config/slugify');
 
 class PersonController {
@@ -16,6 +17,29 @@ class PersonController {
             });
         } catch (error) {
             next(error)
+        }
+    }
+
+    // [GET] /persons/:slug
+    async getOneBySlug(req, res, next) {
+        try {
+            const { slug } = req.params;
+            console.log(slug);
+
+            const person = await Person.findOne({ slug: slug });
+            console.log(person);
+            const movie = await Movie.find({ 'cast.actor': person._id }, 'name viName poster slug');
+            console.log(movie);
+
+            res.status(200).json({
+                status: 'Successful',
+                data: {
+                    person,
+                    movie
+                }
+            });
+        } catch (error) {
+            next(error);
         }
     }
 

@@ -12,6 +12,7 @@ router.patch('/addCaster/:movieId', MovieController.addCaster);
 // router.post('/createMany', verifyToken, MovieController.createMany);
 router.post('/', verifyToken, MovieController.createOne);
 // router.get('/:movieId', MovieController.getOneById);
+// router.get('/getPerson/:id', MovieController.getByPersonId);
 router.get('/getFavorites', verifyToken, MovieController.getFavorite);
 router.get('/:slug', MovieController.getOneBySlug);
 router.get('/', MovieController.get);
