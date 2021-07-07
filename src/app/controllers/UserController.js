@@ -41,7 +41,10 @@ class UserController {
                 status: 'Successful',
                 data: {
                     token,
-                    userName: user.name
+                    userName: user.name,
+                    email: user.email,
+                    role: user.type,
+                    favorites: user.favorites
                 }
             });
         } catch (error) {
@@ -70,6 +73,8 @@ class UserController {
                     data: {
                         token,
                         userName: user.name,
+                        email: user.email,
+                        role: user.type,
                         favorites: user.favorites
                     }
                 });
@@ -104,6 +109,8 @@ class UserController {
                 const user = await User.findOne({ _id: req.user.userId });
                 data.user = {
                     userName: user.name,
+                    email: user.email,
+                    role: user.type,
                     favorites: user.favorites
                 };
             }
