@@ -1,17 +1,26 @@
+
+const removeViTones = require('../../config/removeViTones');
 const Movie = require('../models/Movie');
 const User = require('../models/User');
 
 class MovieController {
     // [GET] /movies
     async get(req, res, next) {
-        const { page, limit } = req.query;
+        const { page, limit, title_like } = req.query;
+        console.log(title_like);
         const PAGE_SIZE = parseInt(limit) || 12;
         if (page) {
             const pages = parseInt(page);
             const skip = (pages - 1) * PAGE_SIZE;
 
             try {
-                const movies = await Movie.find({}).populate('author', 'name').sort({ createdAt: 'desc' }).skip(skip).limit(PAGE_SIZE);
+                var movies = null;
+                if (title_like) {
+                    const nameRegex = new RegExp(title_like, 'i');
+                    movies = await Movie.find({ $or: [{ name: { $in: nameRegex } }, { viNameEn: { $in: nameRegex } }] }).populate('author', 'name').sort({ createdAt: 'desc' }).skip(skip).limit(PAGE_SIZE);
+                } else {
+                    movies = await Movie.find({}).populate('author', 'name').sort({ createdAt: 'desc' }).skip(skip).limit(PAGE_SIZE);
+                }
                 const countMovie = await Movie.find({}).countDocuments({});
                 res.status(200).json({
                     status: 'Successful',
@@ -30,7 +39,13 @@ class MovieController {
             }
         } else {
             try {
-                const movies = await Movie.find({}).populate('author', 'name').sort({ createdAt: 'desc' }).limit(PAGE_SIZE);
+                let movies = null;
+                if (title_like) {
+                    const nameRegex = new RegExp(title_like, 'i');
+                    movies = await Movie.find({ $or: [{ name: { $in: nameRegex } }, { viNameEn: { $in: nameRegex } }] }).populate('author', 'name').sort({ createdAt: 'desc' }).limit(PAGE_SIZE);
+                } else {
+                    movies = await Movie.find({}).populate('author', 'name').sort({ createdAt: 'desc' }).limit(PAGE_SIZE);
+                }
                 const countMovie = await Movie.find({}).countDocuments({});
                 res.status(200).json({
                     status: 'Successful',
@@ -86,7 +101,6 @@ class MovieController {
                 movies
             },
         });
-
     }
 
     // [GET] /movies/getPerson/:id
@@ -120,6 +134,7 @@ class MovieController {
     //         next(error);
     //     }
     // }
+
 
     // [POST] /movies
     async createOne(req, res, next) {
@@ -176,6 +191,30 @@ class MovieController {
                 status: 'Successful',
                 result: movie.nModified,
                 message: `${movie.nModified} records is updated!!!`
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    // [PATCH] /movies/updateVi
+    async updateViEn(req, res, next) {
+        try {
+            const movies = await Movie.find({});
+            if (movies) {
+                movies.map(async (item) => {
+                    const viName = removeViTones(item.viName)
+                    await Movie.findOneAndUpdate({ _id: item.id }, { viNameEn: viName })
+                })
+
+            }
+            const newMovies = await Movie.find({});
+            res.status(200).json({
+                status: 'Successful',
+                result: newMovies.length,
+                data: {
+                    movies: newMovies
+                }
             });
         } catch (error) {
             next(error);

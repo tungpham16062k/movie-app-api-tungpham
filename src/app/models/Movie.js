@@ -5,7 +5,8 @@ const mongooseDelete = require('mongoose-delete');
 
 const MovieSchema = new Schema({
     name: { type: String, trim: true, required: [true, 'Name must be requied'] },
-    viName: { type: String, required: [true, 'viName must be requied'], },
+    viName: { type: String, required: [true, 'viName must be requied'] },
+    viNameEn: { type: String, required: [true, 'viNameEn must be requied'] },
     poster: { type: String, trim: true, required: [true, 'Poster must be requied'] },
     backdrop: String,
     description: Array,
