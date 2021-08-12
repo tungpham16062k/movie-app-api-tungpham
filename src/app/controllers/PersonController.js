@@ -28,14 +28,14 @@ class PersonController {
 
             const person = await Person.findOne({ slug: slug });
             console.log(person);
-            const movie = await Movie.find({ 'cast.actor': person._id }, 'name viName poster slug');
-            console.log(movie);
+            const movieArray1 = await Movie.find({ 'cast.actor': person._id }, 'name viName poster slug');
+            const movieArray2 = await Movie.find({ 'director': person._id }, 'name viName poster slug');
 
             res.status(200).json({
                 status: 'Successful',
                 data: {
                     person,
-                    movie
+                    movie: [...movieArray1, ...movieArray2]
                 }
             });
         } catch (error) {
@@ -101,6 +101,22 @@ class PersonController {
             next(error);
         }
     }
+
+    // [PUT] /persons/:id
+    // async updateOne(req, res, next) {
+    //     try {
+    //         const { personId } = req.params;
+
+    //         const person = await Person.findByIdAndUpdate(personId, { ...req.body });
+
+    //         res.status(200).json({
+    //             status: 'Successful',
+    //             person
+    //         });
+    //     } catch (error) {
+    //         next(error);
+    //     }
+    // }
 
     // [DELETE] /persons
     async deleteAll(req, res, next) {
