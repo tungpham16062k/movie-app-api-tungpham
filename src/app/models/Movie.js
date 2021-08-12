@@ -32,6 +32,9 @@ const MovieSchema = new Schema({
         }
     ],
     rate: Number,
+    trailer: [{
+        type: String
+    }],
     author: {
         type: Schema.Types.ObjectId,
         ref: 'User'

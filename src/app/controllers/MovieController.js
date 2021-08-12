@@ -140,7 +140,9 @@ class MovieController {
     async createOne(req, res, next) {
         try {
             const { userId } = req.user;
-            const movie = await Movie.create({ ...req.body, author: userId });
+            const { viName } = req.body;
+            const viNameEn = removeViTones(viName);
+            const movie = await Movie.create({ ...req.body, author: userId, viNameEn: viNameEn });
             res.status(200).json({
                 status: 'Successful',
                 data: movie,
