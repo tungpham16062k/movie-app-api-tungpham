@@ -27,15 +27,22 @@ class PersonController {
             console.log(slug);
 
             const person = await Person.findOne({ slug: slug });
-            console.log(person);
-            const movieArray1 = await Movie.find({ 'cast.actor': person._id }, 'name viName poster slug');
-            const movieArray2 = await Movie.find({ 'director': person._id }, 'name viName poster slug');
+            const castMovies = await Movie.find({ 'cast.actor': person._id }, 'name viName poster slug');
+            const directorMovies = await Movie.find({ 'director': person._id }, 'name viName poster slug');
+            if (castMovies.length && directorMovies.length) {
+                castMovies.forEach((element, index) => {
+                    const isExist = directorMovies.find((item) => item.slug === element.slug)
+                    if (isExist) {
+                        castMovies.splice(index, 1);
+                    }
+                });
+            }
 
-            res.status(200).json({
+            return res.status(200).json({
                 status: 'Successful',
                 data: {
                     person,
-                    movie: [...movieArray1, ...movieArray2]
+                    movie: [...castMovies, ...directorMovies]
                 }
             });
         } catch (error) {
