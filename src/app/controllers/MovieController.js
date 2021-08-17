@@ -186,8 +186,8 @@ class MovieController {
     async updateAuthorForAll(req, res, next) {
         try {
             const { userId } = req.user;
-
-            const movie = await Movie.updateMany({ author: null }, { author: userId }, { multi: true });
+            console.log(userId);
+            const movie = await Movie.updateMany({}, { author: userId }, { multi: true });
 
             res.status(200).json({
                 status: 'Successful',

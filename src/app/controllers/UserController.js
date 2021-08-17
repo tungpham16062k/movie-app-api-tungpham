@@ -29,7 +29,7 @@ class UserController {
     // [POST] /users/register
     async register(req, res, next) {
         try {
-            const user = await User.create(req.body);
+            const user = await User.create({ ...req.body, favorites: [] });
             // const token = this.encodedToken(user._id);
             const token = jwt.sign({
                 userId: user._id,
@@ -37,7 +37,7 @@ class UserController {
                 exp: new Date().setDate(new Date().getDate() + 1),
             }, process.env.APP_SECRETKEY);
 
-            res.status(200).json({
+            return res.status(200).json({
                 status: 'Successful',
                 data: {
                     token,

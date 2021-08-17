@@ -7,7 +7,7 @@ router.delete('/destroy', MovieController.destroy);
 router.delete('/:movieId', MovieController.deleteOne);
 router.delete('/', MovieController.deleteAll);
 router.put('/:movieId', MovieController.updateOne);
-// router.patch('/author', verifyToken, MovieController.updateAuthorForAll);
+router.patch('/author', verifyToken, MovieController.updateAuthorForAll);
 // router.patch('/updateViEn', MovieController.updateViEn);
 router.patch('/addCaster/:movieId', MovieController.addCaster);
 // router.post('/createMany', verifyToken, MovieController.createMany);

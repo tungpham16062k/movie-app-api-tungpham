@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const mongooseDelete = require('mongoose-delete');
 const bcrypt = require('bcrypt');
+const Movie = require('./Movie');
 
 const UserSchema = new Schema({
     name: { type: String, trim: true, required: [true, 'Name must be requied'] },
@@ -11,8 +12,7 @@ const UserSchema = new Schema({
     favorites: [
         {
             type: Schema.Types.ObjectId,
-            ref: 'Movie',
-            unique: [true, 'Movie is existed in the favorites list'],
+            ref: 'Movie'
         }
     ]
 }, {
@@ -21,6 +21,7 @@ const UserSchema = new Schema({
 
 UserSchema.pre('save', function (next) {
     let user = this;
+    console.log(user);
     bcrypt.hash(user.password, 10, function (error, hash) {
         if (error) {
             next(error);
