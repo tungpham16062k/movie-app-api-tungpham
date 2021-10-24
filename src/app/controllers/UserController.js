@@ -16,7 +16,7 @@ class UserController {
         try {
             const users = await User.find({});
 
-            res.status(200).json({
+            return res.status(200).json({
                 status: 'Successful',
                 results: users.length,
                 data: users,
@@ -25,7 +25,32 @@ class UserController {
             next(error)
         }
     }
-
+    // [GET] /users/getCurrent
+    async getCurrent(req, res, next) {
+        try {
+            const data = { user: null };
+            if (req.user) {
+                const user = await User.findOne({ _id: req.user.userId });
+                if (!user.isActive) {
+                    const err = new Error('Your account is blocked!');
+                    err.statusCode = 400;
+                    next(err);
+                };
+                data.user = {
+                    userName: user.name,
+                    email: user.email,
+                    role: user.type,
+                    favorites: user.favorites
+                };
+            };
+            return res.status(200).json({
+                status: 'Successful',
+                data
+            });
+        } catch (error) {
+            next(error)
+        }
+    }
     // [POST] /users/register
     async register(req, res, next) {
         try {
@@ -68,7 +93,12 @@ class UserController {
                     iat: new Date().getTime(),
                     exp: new Date().setDate(new Date().getDate() + 1),
                 }, process.env.APP_SECRETKEY);
-                res.status(200).json({
+                if (!user.isActive) {
+                    const err = new Error('Your account is blocked!');
+                    err.statusCode = 400;
+                    next(err);
+                }
+                return res.status(200).json({
                     status: 'Successful',
                     data: {
                         token,
@@ -88,6 +118,39 @@ class UserController {
             next(error)
         }
     }
+    // [PATCH] /users/block/:id
+    async blockOne(req, res, next) {
+        try {
+            const { userId } = req.params;
+
+            const user = await User.findByIdAndUpdate(userId, { isActive: false }, { new: true });
+
+            res.status(200).json({
+                status: 'Successful',
+                data: user
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    // [PATCH] /users/unblock/:id
+    async unBlockOne(req, res, next) {
+        try {
+            const { userId } = req.params;
+
+            const user = await User.findByIdAndUpdate(userId, { isActive: true }, { new: true });
+
+            res.status(200).json({
+                status: 'Successful',
+                data: user
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+
+
     // [DELETE] /users
     async deleteAllUser(req, res, next) {
         try {
@@ -98,28 +161,6 @@ class UserController {
             });
         } catch (error) {
             next(error);
-        }
-    }
-
-    // [GET] /users/getCurrent
-    async getCurrent(req, res, next) {
-        try {
-            const data = { user: null };
-            if (req.user) {
-                const user = await User.findOne({ _id: req.user.userId });
-                data.user = {
-                    userName: user.name,
-                    email: user.email,
-                    role: user.type,
-                    favorites: user.favorites
-                };
-            }
-            res.status(200).json({
-                status: 'Successful',
-                data
-            });
-        } catch (error) {
-            next(error)
         }
     }
 

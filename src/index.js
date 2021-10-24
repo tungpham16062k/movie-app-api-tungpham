@@ -19,8 +19,6 @@ app.use(express.urlencoded({
 
 app.use(express.json());
 
-app.use(cors());
-
 //HTTP logger
 app.use(morgan('combined'));
 
@@ -28,6 +26,8 @@ route(app);
 
 app.use(errorHandler);
 
+app.use(cors());
+
 app.listen(PORT, () => {
-    console.log(`App listening at http://localhost:${PORT}/api`);
+    console.log(`App listening at https://localhost:${PORT}/api`);
 });

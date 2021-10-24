@@ -2,6 +2,8 @@
 const Person = require('../models/Person');
 const Movie = require('../models/Movie');
 const slugify = require('../../config/slugify');
+const personApi = require('../../api/personApi');
+const { findByIdAndUpdate } = require('../models/Person');
 
 class PersonController {
 
@@ -92,6 +94,27 @@ class PersonController {
         }
     }
 
+    // [POST] /persons/:personId/insertOne
+    async insertOneFromApi(req, res, next) {
+        try {
+            const { personId } = req.params;
+            const { userId } = req.user;
+
+            const personDataApi = await personApi.getById(personId);
+            // const personDataApi = await Person.find({});
+            // const person = await Person.create({ author: userId });
+            res.status(200).json({
+                status: 'Successful',
+                data: {
+                    personDataApi,
+                }
+            });
+            return 0;
+        } catch (error) {
+            next(error);
+        }
+    }
+
     // [PATCH] /persons/author
     async updateAuthorForAll(req, res, next) {
         try {
@@ -109,21 +132,21 @@ class PersonController {
         }
     }
 
-    // [PUT] /persons/:id
-    // async updateOne(req, res, next) {
-    //     try {
-    //         const { personId } = req.params;
+    // [PUT] /persons/: id
+    async updateOne(req, res, next) {
+        try {
+            const { personId } = req.params;
 
-    //         const person = await Person.findByIdAndUpdate(personId, { ...req.body });
+            const person = await Person.findByIdAndUpdate(personId, { ...req.body });
 
-    //         res.status(200).json({
-    //             status: 'Successful',
-    //             person
-    //         });
-    //     } catch (error) {
-    //         next(error);
-    //     }
-    // }
+            res.status(200).json({
+                status: 'Successful',
+                person
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
 
     // [DELETE] /persons
     async deleteAll(req, res, next) {

@@ -7,7 +7,6 @@ class MovieController {
     // [GET] /movies
     async get(req, res, next) {
         const { page, limit, title_like } = req.query;
-        console.log(title_like);
         const PAGE_SIZE = parseInt(limit) || 12;
         if (page) {
             const pages = parseInt(page);
