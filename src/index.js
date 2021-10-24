@@ -26,7 +26,7 @@ route(app);
 
 app.use(errorHandler);
 
-app.use(cors);
+app.use(cors());
 
 app.listen(PORT, () => {
     console.log(`App listening at https://localhost:${PORT}/api`);
