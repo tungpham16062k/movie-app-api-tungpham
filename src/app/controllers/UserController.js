@@ -79,6 +79,7 @@ class UserController {
     // [POST] /users/login
     async login(req, res, next) {
         try {
+            console.log(req.body);
             const user = await User.findOne({ email: req.body.email });
             if (!user) {
                 // Error: Email is not correct
@@ -92,7 +93,7 @@ class UserController {
                     userId: user._id,
                     iat: new Date().getTime(),
                     exp: new Date().setDate(new Date().getDate() + 1),
-                }, process.env.APP_SECRETKEY);
+                }, process.env.APP_SECRET_KEY);
                 if (!user.isActive) {
                     const err = new Error('Your account is blocked!');
                     err.statusCode = 400;
