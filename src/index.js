@@ -7,6 +7,7 @@ const db = require('./config/db');
 const route = require('./route');
 const errorHandler = require('./app/middlewares/errorHandler');
 
+app.use(cors());
 dotenv.config();
 const PORT = process.env.PORT || 5000;
 
@@ -26,7 +27,6 @@ route(app);
 
 app.use(errorHandler);
 
-app.use(cors());
 
 app.listen(PORT, () => {
     console.log(`App listening at https://localhost:${PORT}/api`);
