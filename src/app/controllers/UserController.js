@@ -60,7 +60,7 @@ class UserController {
                 userId: user._id,
                 iat: new Date().getTime(),
                 exp: new Date().setDate(new Date().getDate() + 1),
-            }, process.env.APP_SECRETKEY);
+            }, process.env.APP_SECRET_KEY);
 
             return res.status(200).json({
                 status: 'Successful',
