@@ -252,9 +252,18 @@ class UserController {
     async deleteOne(req, res, next) {
         try {
             const { userId } = req.params;
+            const { returns } = req.query;
 
             const user = await User.delete({ _id: userId });
-            res.status(200).json({
+            if (returns && returns === 'list') {
+                const users = await User.find({});
+                return res.status(200).json({
+                    status: 'Successful',
+                    results: users.length,
+                    data: users,
+                });
+            }
+            return res.status(200).json({
                 status: 'Successful',
                 message: 'User has been deleted'
             });
