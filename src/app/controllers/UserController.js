@@ -121,12 +121,21 @@ class UserController {
     }
     // [PATCH] /users/block/:id
     async blockOne(req, res, next) {
+        const { returns } = req.query;
         try {
             const { userId } = req.params;
 
             const user = await User.findByIdAndUpdate(userId, { isActive: false }, { new: true });
 
-            res.status(200).json({
+            if (returns && returns === 'list') {
+                const users = await User.find({});
+                return res.status(200).json({
+                    status: 'Successful',
+                    results: users.length,
+                    data: users,
+                });
+            }
+            return res.status(200).json({
                 status: 'Successful',
                 data: user
             });
@@ -138,10 +147,18 @@ class UserController {
     // [PATCH] /users/unblock/:id
     async unBlockOne(req, res, next) {
         try {
+            const { returns } = req.query;
             const { userId } = req.params;
 
             const user = await User.findByIdAndUpdate(userId, { isActive: true }, { new: true });
-
+            if (returns && returns === 'list') {
+                const users = await User.find({});
+                return res.status(200).json({
+                    status: 'Successful',
+                    results: users.length,
+                    data: users,
+                });
+            }
             res.status(200).json({
                 status: 'Successful',
                 data: user
