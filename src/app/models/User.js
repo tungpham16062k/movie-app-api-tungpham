@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const mongooseDelete = require('mongoose-delete');
 const bcrypt = require('bcrypt');
-const Movie = require('./Movie');
 
 const UserSchema = new Schema({
     name: { type: String, trim: true, required: [true, 'Name must be requied'] },

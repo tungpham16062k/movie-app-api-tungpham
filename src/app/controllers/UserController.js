@@ -247,6 +247,21 @@ class UserController {
             next(error)
         }
     }
+
+    // [DELETE] /users/:id
+    async deleteOne(req, res, next) {
+        try {
+            const { userId } = req.params;
+
+            const user = await User.delete({ _id: userId });
+            res.status(200).json({
+                status: 'Successful',
+                message: 'User has been deleted'
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
 }
 
 module.exports = new UserController;

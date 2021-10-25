@@ -7,6 +7,7 @@ const verifyToken = require('../app/middlewares/verifyToken');
 router.post('/register', UserController.register);
 router.post('/login', UserController.login);
 router.delete('/', UserController.deleteAllUser);
+router.delete('/:userId', UserController.deleteOne);
 router.patch('/block/:userId', verifyToken, UserController.blockOne);
 router.patch('/unblock/:userId', verifyToken, UserController.unBlockOne);
 router.patch('/removeFav/:movieId', verifyToken, UserController.removeFavorites);
