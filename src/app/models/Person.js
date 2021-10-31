@@ -9,7 +9,6 @@ const PersonSchema = new Schema({
     description: String,
     birthday: String,
     gender: String,
-    dbmovie_id: Number,
     author: {
         type: Schema.Types.ObjectId,
         ref: 'User'
