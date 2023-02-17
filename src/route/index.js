@@ -3,18 +3,18 @@ const movieRouter = require('./movie');
 const categoryRouter = require('./category');
 const personRouter = require('./person');
 function route(app) {
-    app.get('/api', (req, res, next) => {
+    app.get('/', (req, res, next) => {
         res.status(200).json({
             status: 'Successful'
         });
     });
-    app.use('/api/movies', movieRouter);
+    app.use('/movies', movieRouter);
 
-    app.use('/api/users', userRouter);
+    app.use('/users', userRouter);
 
-    app.use('/api/categories', categoryRouter);
+    app.use('/categories', categoryRouter);
 
-    app.use('/api/persons', personRouter);
+    app.use('/persons', personRouter);
 
     app.all('*', (req, res, next) => {
         const err = new Error('The route can not be found!');
